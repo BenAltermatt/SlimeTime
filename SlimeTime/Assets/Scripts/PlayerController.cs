@@ -6,13 +6,17 @@ public class PlayerController : MonoBehaviour
 {
     // Stats associated with the player
     public float speed;
+    public float projectileSpeed;
 
     public Rigidbody2D rb;
+    public GameObject projectile;
+    public Transform tr;
 
     // Start is called before the first frame update
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
+        tr = GetComponent<Transform>();
     }
 
     // Update is called once per frame
@@ -23,6 +27,10 @@ public class PlayerController : MonoBehaviour
 
     void FixedUpdate() {
         move();
+        if(Input.GetMouseButton(0))
+        {
+            fire();
+        }
     }
 
     private void move() 
@@ -35,5 +43,20 @@ public class PlayerController : MonoBehaviour
 
         if(magnitude != 0)
             rb.velocity = rb.velocity / magnitude;
+    }
+
+    private void fire() {
+        Vector3 mousePos = Input.mousePosition;
+        Vector2 trajectory = new Vector2(mousePos.x - rb.position.x, mousePos.y - rb.position.y);
+        
+        float magnitude = Mathf.Sqrt(trajectory.sqrMagnitude);
+
+        if(magnitude > 0)
+        {
+            trajectory = new Vector2(trajectory.x / magnitude, trajectory.y / magnitude);
+        }
+
+        GameObject shot = Instantiate(projectile, tr);
+        shot.GetComponent<Rigidbody2D>().velocity = trajectory;
     }
 }

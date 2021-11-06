@@ -47,10 +47,17 @@ public class EnemyController : MonoBehaviour
     // collects all collisions
     void OnTriggerEnter2D(Collider2D collider) {
         // detect if hit by a projectile
-        if(collider.gameObject.tag == "Projectile")
+        if(collider.gameObject.tag == "Projectile" && collider.gameObject.GetComponent<ProjectileBehavior>().parTag != "Enemy")
         {
             float projStrength = collider.gameObject.GetComponent<ProjectileBehavior>().strength;
             health -= Constants.calcDamage(projStrength, defense);
+        }
+
+        // detect if hit by melee attack
+        if(collider.gameObject.tag == "Player")
+        {
+            float pStren = collider.gameObject.GetComponent<PlayerController>().strength;
+            health -= Constants.calcDamage(pStren, defense);
         }
     }
 

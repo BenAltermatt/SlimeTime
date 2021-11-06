@@ -5,18 +5,37 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour
 {
     // Stats associated with the player
+    public float health;
     public float speed;
     public float projectileSpeed;
     public float projectileStrength;
+    public float strength;
+    public float swingSpeed;
 
     // takes care of shooting projectiles
     public float projectileCooldown;
     private float timeShot;
 
+    // takes care of melee attacks
+    public float meleeCooldown;
+    private float timeSwung;
+    public int swingDir;
+
     public Rigidbody2D rb;
     public GameObject projectile;
     public Transform tr;
     public Camera cam;
+
+    // hitboxes and hurtboxes
+    public Collider2D hurtBox;
+    public Collider2D[] hitBoxes;
+
+    public const int RIGHT = 0;
+    public const int DOWN = 1;
+    public const int LEFT = 2;
+    public const int UP = 3;
+
+    private int lastDir;
 
     // Start is called before the first frame update
     void Start()
@@ -25,6 +44,20 @@ public class PlayerController : MonoBehaviour
         tr = GetComponent<Transform>();
         cam = Camera.main;
         timeShot = Time.time;
+        timeSwung = Time.time;
+
+        lastDir = DOWN;
+        swingDir = DOWN;
+        health = 100;
+
+        Collider2D[] boxes = GetComponents<Collider2D>();
+        hitBoxes = new Collider2D[4];
+        hurtBox = boxes[5];
+        for(int i = 1; i < boxes.Length - 1; i++)
+        {
+            hitBoxes[i - 1] = boxes[i];
+            hitBoxes[i - 1].enabled = false;
+        }
     }
 
     // Update is called once per frame
@@ -39,6 +72,14 @@ public class PlayerController : MonoBehaviour
         {
             fire();
         }
+        if(Time.time - timeSwung > swingSpeed)
+        {
+            hitBoxes[swingDir].enabled = false;
+        }
+        if(Input.GetKey("space"))
+        {
+            attack();
+        }
     }
 
     private void move() 
@@ -46,6 +87,18 @@ public class PlayerController : MonoBehaviour
         int x = (int) Input.GetAxisRaw("Horizontal");
         int y = (int) Input.GetAxisRaw("Vertical");
         float magnitude = Mathf.Sqrt(Mathf.Pow(x, 2) + Mathf.Pow(y, 2));
+
+        if(y!= 0)
+        {
+            lastDir = y + 2;
+        }
+        else if(x != 0)
+        {
+            lastDir = -1 * x + 1;
+        }
+        else{
+            lastDir = 1;
+        }
 
         rb.velocity = new Vector2(x * speed, y * speed);
 
@@ -65,4 +118,20 @@ public class PlayerController : MonoBehaviour
             timeShot = Time.time;
         }
     }
+
+    void OnTriggerEnter2D()
+    {
+
+    }
+
+    public void attack()
+    {
+        if(Time.time - timeSwung > meleeCooldown)
+        {
+            hitBoxes[lastDir].enabled = true;
+            swingDir = lastDir;
+            timeSwung = Time.time;
+        }
+    }
+
 }

@@ -29,9 +29,11 @@ public class PlayerController : MonoBehaviour
     {
         int x = (int) Input.GetAxisRaw("Horizontal");
         int y = (int) Input.GetAxisRaw("Vertical");
+        float magnitude = Mathf.Sqrt(Mathf.Pow(x, 2) + Mathf.Pow(y, 2));
 
-        float magnitude = Mathf.Sqrt(Mathf.Pow(x, 2) + Mathf.Pow(x, 2));
+        rb.velocity = new Vector2(x * speed, y * speed);
 
-        rb.velocity = new Vector2(x * speed / magnitude, y * speed / magnitude);
+        if(magnitude != 0)
+            rb.velocity = rb.velocity / magnitude;
     }
 }

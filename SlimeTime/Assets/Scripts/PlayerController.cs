@@ -7,6 +7,7 @@ public class PlayerController : MonoBehaviour
     // Stats associated with the player
     public float speed;
     public float projectileSpeed;
+    public float projectileStrength;
 
     // takes care of shooting projectiles
     public float projectileCooldown;
@@ -67,6 +68,7 @@ public class PlayerController : MonoBehaviour
             }
 
             GameObject shot = Instantiate(projectile, tr);
+            shot.GetComponent<ProjectileBehavior>().strength = projectileStrength;
             shot.GetComponent<Rigidbody2D>().velocity = trajectory;
             timeShot = Time.time;
         }

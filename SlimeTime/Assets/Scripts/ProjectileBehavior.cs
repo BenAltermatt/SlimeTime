@@ -6,6 +6,7 @@ public class ProjectileBehavior : MonoBehaviour
 {
     public Renderer renderer;
 
+    public float strength;
 
     // Start is called before the first frame update
     void Start()
@@ -21,6 +22,13 @@ public class ProjectileBehavior : MonoBehaviour
     void FixedUpdate()
     {
         if(!renderer.isVisible)
+            Destroy(gameObject);
+    }
+
+    void OnTriggerEnter2D(Collider2D collision) 
+    {
+        // if its not hitting itself or the player
+        if(collision.gameObject.tag != "Projectile")
             Destroy(gameObject);
     }
 }

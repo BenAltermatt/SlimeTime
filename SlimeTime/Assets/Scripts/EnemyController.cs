@@ -28,11 +28,17 @@ public class EnemyController : MonoBehaviour
         tr = GetComponent<Transform>();
         timeShotted = Time.time;
     }
-
+    
     // Update is called once per frame
     void Update()
     {
-        
+        runAway();
+    }
+
+    void runAway() {
+        Vector3 moveDir = tr.position - targetPos.position;
+        moveDir = new Vector3(moveDir.x, moveDir.y, 0);
+        transform.Translate(moveDir.normalized * speed * Time.deltaTime);
     }
 
     void FixedUpdate() {

@@ -7,6 +7,7 @@ public class EnemyController : MonoBehaviour
     public float speed;
     public float health;
     public float defense; 
+    public float strength;
     public float shootCooldown;
     public float projectileStrength;
     public float projectileSpeed;

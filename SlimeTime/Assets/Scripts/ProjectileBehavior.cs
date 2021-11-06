@@ -12,12 +12,15 @@ public class ProjectileBehavior : MonoBehaviour
     public float strength;
     public float speed;
 
+    public bool destroySoon;
+
     public string parTag;
 
     // Start is called before the first frame update
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
+        destroySoon = false;
     }
 
     // Update is called once per frame
@@ -30,13 +33,17 @@ public class ProjectileBehavior : MonoBehaviour
     {
         if(!renderer.isVisible)
             Destroy(gameObject);
+        if(destroySoon)
+            Destroy(gameObject);
     }
 
     void OnTriggerEnter2D(Collider2D collision) 
     {
         // if its not hitting itself and not hitting the creator
         if(collision.gameObject.tag != "Projectile" && collision.gameObject.tag != parTag)
-            Destroy(gameObject);
+        {
+            destroySoon = true;
+        }
             
     }
 

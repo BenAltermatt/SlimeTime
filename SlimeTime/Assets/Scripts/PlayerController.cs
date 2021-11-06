@@ -7,6 +7,7 @@ public class PlayerController : MonoBehaviour
     // Stats associated with the player
     public float health;
     public float speed;
+    public float defense;
     public float projectileSpeed;
     public float projectileStrength;
     public float strength;
@@ -119,11 +120,6 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    void OnTriggerEnter2D()
-    {
-
-    }
-
     public void attack()
     {
         if(Time.time - timeSwung > meleeCooldown)
@@ -132,6 +128,28 @@ public class PlayerController : MonoBehaviour
             swingDir = lastDir;
             timeSwung = Time.time;
         }
+    }
+
+    void OnTriggerEnter2D(Collider2D collider)
+    {
+        if(collider.IsTouching(hurtBox))
+        {   
+            if(collider.gameObject.tag == "Projectile" && collider.gameObject.GetComponent<ProjectileBehavior>().parTag != "Player")
+            {
+                Debug.Log("hit.");
+                float str = collider.gameObject.GetComponent<ProjectileBehavior>().strength;
+                Debug.Log(str);
+                health -= Constants.calcDamage(str, defense);
+            }
+
+            if(collider.gameObject.tag == "Enemy")
+            {
+                float str = collider.gameObject.GetComponent<EnemyController>().strength;
+                health -= Constants.calcDamage(str, defense);
+            }
+        }
+
+        
     }
 
 }

@@ -12,6 +12,8 @@ public class ProjectileBehavior : MonoBehaviour
     public float strength;
     public float speed;
 
+    private string tag;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -33,16 +35,19 @@ public class ProjectileBehavior : MonoBehaviour
     void OnTriggerEnter2D(Collider2D collision) 
     {
         // if its not hitting itself 
-        if(collision.gameObject.tag != "Projectile")
+        
+        if(collision.gameObject.tag != tag && collision.gameObject.tag != "Projectile")
             Destroy(gameObject);
+            
     }
 
-    public void setup(float strn, float spd, Vector2 aim, Transform ogPos)
+    public void setup(float strn, float spd, Vector2 aim, Transform ogPos, string parTag)
     {
         tr = ogPos;
         this.aim = aim;
         strength = strn;
         speed = spd;
+        tag = parTag;
         rb = GetComponent<Rigidbody2D>();
         launch();
     }

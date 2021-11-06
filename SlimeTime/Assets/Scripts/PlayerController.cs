@@ -54,33 +54,14 @@ public class PlayerController : MonoBehaviour
     }
 
     private void fire() {
-        /*
-        if(Time.time - timeShot > projectileCooldown) 
-        {
-            Vector3 mousePos = Input.mousePosition;
-            mousePos = cam.ScreenToWorldPoint(mousePos);
-            Vector2 trajectory = new Vector2(mousePos.x - tr.position.x, mousePos.y - tr.position.y);
-            
-            float magnitude = Mathf.Sqrt(trajectory.sqrMagnitude);
 
-            if(magnitude > 0)
-            {
-                trajectory = new Vector2(trajectory.x * projectileSpeed / magnitude, trajectory.y  * projectileSpeed/ magnitude);
-            }
-
-            GameObject shot = Instantiate(projectile, tr);
-            shot.GetComponent<ProjectileBehavior>().strength = projectileStrength;
-            shot.GetComponent<Rigidbody2D>().velocity = trajectory;
-            timeShot = Time.time;
-        }
-        */
         if(Time.time - timeShot > projectileCooldown) 
         {
             Vector3 mousePos = Input.mousePosition;
             mousePos = cam.ScreenToWorldPoint(mousePos);
 
             GameObject shot = Instantiate(projectile, tr);
-            shot.GetComponent<ProjectileBehavior>().setup(projectileStrength, projectileSpeed, new Vector2(mousePos.x, mousePos.y), tr);
+            shot.GetComponent<ProjectileBehavior>().setup(projectileStrength, projectileSpeed, new Vector2(mousePos.x, mousePos.y), tr, gameObject.tag);
             timeShot = Time.time;
         }
     }

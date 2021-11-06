@@ -7,9 +7,16 @@ public class EnemyController : MonoBehaviour
     public float speed;
     public float health;
     public float defense; 
+    public float shootCooldown;
+    public float projectileStrength;
+    public float projectileSpeed;
+
+    private float timeShotted;
     
     public Rigidbody2D rb;
     public GameObject target;
+    public GameObject projectile;
+    public Transform tr;
     private Transform targetPos;
 
     // Start is called before the first frame update
@@ -17,6 +24,8 @@ public class EnemyController : MonoBehaviour
     {
         rb = GetComponent<Rigidbody2D>();
         targetPos = target.GetComponent<Transform>();
+        tr = GetComponent<Transform>();
+        timeShotted = Time.time;
     }
 
     // Update is called once per frame
@@ -31,11 +40,12 @@ public class EnemyController : MonoBehaviour
             Destroy(gameObject);
         }
         trackTarget();
+        if(Input.GetMouseButton(0))
+            shoot();
     }
 
     // collects all collisions
     void OnTriggerEnter2D(Collider2D collider) {
-        Debug.Log("Hit!");
         // detect if hit by a projectile
         if(collider.gameObject.tag == "Projectile")
         {
@@ -57,5 +67,20 @@ public class EnemyController : MonoBehaviour
             rb.velocity = trajectory;
         }
 
+    }
+
+    // shoot at the target
+    void shoot()
+    {
+        if(Time.time - timeShotted > shootCooldown) // it's cooled down
+        {
+            Vector3 targPos = targetPos.position;
+
+            GameObject boolet = GameObject.Instantiate(projectile, tr);
+            boolet.GetComponent<ProjectileBehavior>().setup(projectileStrength, projectileSpeed, 
+            new Vector2(targPos.x, targPos.y), tr, gameObject.tag);
+
+            timeShotted = Time.time;
+        }
     }
 }

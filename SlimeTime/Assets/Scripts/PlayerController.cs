@@ -150,40 +150,40 @@ public class PlayerController : MonoBehaviour
     void OnTriggerEnter2D(Collider2D collider)
     {
         //If we're eating a corpse or a plant
-        if (other.gameObject.tag == "Edible")
+        if (collider.gameObject.tag == "Edible")
         {
-            if(other.gameObject.name == "blue-bird")
+            if(collider.gameObject.name == "blue-bird")
             {
                 Debug.Log("Ate blue-bird (health)");
                 health+=1;
             }
-            if(other.gameObject.name == "yellow-bird")
+            if(collider.gameObject.name == "yellow-bird")
             {
                 Debug.Log("Ate yellow-bird (speed)");
                 speed+=1;
             }
-            if(other.gameObject.name == "brown-bird")
+            if(collider.gameObject.name == "brown-bird")
             {
                 Debug.Log("Ate brown-bird (defense)");
                 speed+=1;
             }
-            if(other.gameObject.name == "fire-lizard")
+            if(collider.gameObject.name == "fire-lizard")
             {
                 Debug.Log("Ate fire-lizard");
                 fireStrength += 1;
             }
-            if(other.gameObject.name == "ice-lizard")
+            if(collider.gameObject.name == "ice-lizard")
             {
                 Debug.Log("Ate ice-lizard");
                 iceStrength += 1;
             }
-            if(other.gameObject.name == "poison-bush")
+            if(collider.gameObject.name == "poison-bush")
             {
                 Debug.Log("Ate poison-bush");
                 poisonStrength += 1;
             }
 
-            Destroy(other.gameObject);
+            Destroy(collider.gameObject);
         }
         
         //Taking damage

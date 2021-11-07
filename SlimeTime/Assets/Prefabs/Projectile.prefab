@@ -150,7 +150,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   renderer: {fileID: 5560909638429978674}
+  aim: {x: 0, y: 0}
+  tr: {fileID: 0}
+  rb: {fileID: 0}
   strength: 1
+  speed: 0
+  destroySoon: 0
+  parTag: 
 --- !u!58 &1195868248936384735
 CircleCollider2D:
   m_ObjectHideFlags: 0

@@ -103,8 +103,13 @@ MonoBehaviour:
   defense: 0
   strength: 0
   shootCooldown: 1
+  swingSpeed: 0
   projectileStrength: 1
   projectileSpeed: 10
+  meleeCooldown: 0
+  swingDir: 0
+  hurtBox: {fileID: 0}
+  hitBoxes: []
   rb: {fileID: 6155947343112961979}
   target: {fileID: 0}
   projectile: {fileID: 6061886319510677427, guid: 8f1cec15abfb44baabd567b4b0a22cb8, type: 3}

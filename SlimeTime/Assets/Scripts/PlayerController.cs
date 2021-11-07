@@ -26,6 +26,7 @@ public class PlayerController : MonoBehaviour
     public GameObject projectile;
     public Transform tr;
     public Camera cam;
+    public Animator anim;
 
     // hitboxes and hurtboxes
     public Collider2D hurtBox;
@@ -43,6 +44,7 @@ public class PlayerController : MonoBehaviour
     {
         rb = GetComponent<Rigidbody2D>();
         tr = GetComponent<Transform>();
+        anim = GetComponentInChildren<Animator>();
         cam = Camera.main;
         timeShot = Time.time;
         timeSwung = Time.time;
@@ -97,10 +99,9 @@ public class PlayerController : MonoBehaviour
         {
             lastDir = -1 * x + 1;
         }
-        else{
-            lastDir = 1;
-        }
-
+        
+        anim.SetInteger("Direction", lastDir);
+        Debug.Log(anim.GetInteger("Direction"));
         rb.velocity = new Vector2(x * speed, y * speed);
 
         if(magnitude != 0)

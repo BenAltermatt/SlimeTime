@@ -29,7 +29,7 @@ public class PlayerController : MonoBehaviour
     public Animator anim;
 
     // slash boxes
-    public Animator[] animators;
+    public Animator[] slashAnimators;
 
     // hitboxes and hurtboxes
     public Collider2D hurtBox;
@@ -64,6 +64,14 @@ public class PlayerController : MonoBehaviour
             hitBoxes[i - 1] = boxes[i];
             hitBoxes[i - 1].enabled = false;
         }
+
+        Animator[] allAnimators = GetComponentsInChildren<Animator>();
+        anim = allAnimators[0];
+        slashAnimators = new Animator[4];
+        for(int i = 1; i < allAnimators.Length; i++)
+        {
+            slashAnimators[i - 1] = allAnimators[i];
+        }
     }
 
     // Update is called once per frame
@@ -81,6 +89,7 @@ public class PlayerController : MonoBehaviour
         if(Time.time - timeSwung > swingSpeed)
         {
             hitBoxes[swingDir].enabled = false;
+            slashAnimators[swingDir].SetBool("Triggered", false);
         }
         if(Input.GetKey("space"))
         {
@@ -130,6 +139,7 @@ public class PlayerController : MonoBehaviour
         {
             hitBoxes[lastDir].enabled = true;
             swingDir = lastDir;
+            slashAnimators[swingDir].SetBool("Triggered", true);
             timeSwung = Time.time;
         }
     }

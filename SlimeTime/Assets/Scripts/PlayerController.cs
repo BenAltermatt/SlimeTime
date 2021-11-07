@@ -28,6 +28,9 @@ public class PlayerController : MonoBehaviour
     public Camera cam;
     public Animator anim;
 
+    // slash boxes
+    public Animator[] animators;
+
     // hitboxes and hurtboxes
     public Collider2D hurtBox;
     public Collider2D[] hitBoxes;

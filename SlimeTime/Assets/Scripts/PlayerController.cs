@@ -89,7 +89,7 @@ public class PlayerController : MonoBehaviour
         if(Time.time - timeSwung > swingSpeed)
         {
             hitBoxes[swingDir].enabled = false;
-            slashAnimators[swingDir].SetBool("Triggered", false);
+            slashAnimators[swingDir].SetInteger("TriggeredDir", 4);
         }
         if(Input.GetKey("space"))
         {
@@ -139,7 +139,7 @@ public class PlayerController : MonoBehaviour
         {
             hitBoxes[lastDir].enabled = true;
             swingDir = lastDir;
-            slashAnimators[swingDir].SetBool("Triggered", true);
+            slashAnimators[swingDir].SetInteger("TriggeredDir", swingDir);
             timeSwung = Time.time;
         }
     }
